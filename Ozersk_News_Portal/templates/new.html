@@ -1,0 +1,17 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <hr>
+    <h2>"{{ new.name|censor }}"</h2>
+    <i><h4>опубликовано - {{ new.time_in }}</h4></i>
+   <hr>
+    <h2>"{{ new.textPost|censor }}"</h2>
+{% endblock content %}
+

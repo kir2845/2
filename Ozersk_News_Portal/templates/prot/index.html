@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+{% csrf_token %}
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+
+<!-- #######  THIS IS A COMMENT - Visible only in the source editor #########-->
+<h2>ПЕРЕЙТИ НА ОСНОВНУЮ СТРАНИЦУ:</h2>
+<h2><a title="&quot;Ozersk News Portal&quot;" href="http://127.0.0.1:8000/news/">http://127.0.0.1:8000/news/</a></h2>
+<p><img src="https://sun9-51.userapi.com/impg/TPJEGqWDzKHp_679GtLP4BabhIMGN-dTlHwiSw/3Ww1fiN23xo.jpg?size=2560x1706&amp;quality=95&amp;sign=ed00583fb53a1429198f972adb2d8207&amp;type=album" alt="" width="458" height="305" /></p>
+<hr />
+
+{% if is_not_authors %}
+<button> <a href="sign/upgrade/"> Хочу cтать автором!</a> </button>
+{% endif %}
+
+<button> <a href="sign/logout/">Выйти</a> </button>
+{% endblock %}
