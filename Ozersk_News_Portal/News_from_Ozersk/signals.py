@@ -3,7 +3,7 @@ from django.conf import settings
 from django.dispatch import receiver # импортируем нужный декоратор
 from django.core.mail import EmailMultiAlternatives
 from News_from_Ozersk.models import NewCategory
-from Ozersk_News_Portal.settings import SITE_URL
+from Ozersk_News_Portal import settings
 from django.template.loader import render_to_string
 
 
@@ -22,9 +22,9 @@ def send_notifications(preview, pk, name, subscribers):
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=subscribers,
     )
-
     msg.attach_alternative(html_content,'text/html')
     msg.send()
+
 
 @receiver(m2m_changed, sender=NewCategory)
 def notify_about_new_post(sender, instance, **kwargs):

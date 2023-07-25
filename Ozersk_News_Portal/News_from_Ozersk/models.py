@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 
 class Author1(models.Model):
@@ -54,6 +55,11 @@ class New(models.Model):         # Новости для нашей витрин
     def preview(self):
         text = self.textPost[:124] + "..."
         return text
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'new-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
+
 
 
 class NewCategory(models.Model):

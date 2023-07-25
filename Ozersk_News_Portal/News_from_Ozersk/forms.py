@@ -9,7 +9,7 @@ class NewForm(forms.ModelForm):
 
     class Meta:
        model = New
-       fields = ['name', 'author', 'textPost']
+       fields = ['name', 'author', 'textPost', 'category']
 
     def clean(self):
         cleaned_data = super().clean()

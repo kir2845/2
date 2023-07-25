@@ -29,14 +29,14 @@ News
 
            {% for new in news %}
            <tr>
-               {#<td><a href="{% url 'new_category' new.category.id %}">{{ new.category|truncatewords:5 }}</a></td>#}
                <td>
                    {% for category in new.category.all %}
                        <a href="{% url 'new_category' category.id %}">{{ category|truncatewords:5 }}</a>
                    {% endfor %}
                </td>
                <td>{{ new.author|truncatewords:2 }}</td>
-               <td>{{ new.name|censor|truncatechars:60 }}</td>
+               <td><a href="{% url 'new_detail' new.id %}">{{ new.name|censor|truncatechars:60 }}</a></td>
+               {#<td>{{ new.name|censor|truncatechars:60 }}</td>#}
                <td><i>{{ new.time_in }}</i></td>
                <td>{{ new.textPost|censor|truncatewords:20 }}</td>
            </tr>

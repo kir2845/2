@@ -5,5 +5,5 @@ class NewsFromOzerskConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'News_from_Ozersk'
 
-    def ready(self):
-        import News_from_Ozersk.signals
+#    def ready(self):
+#       import News_from_Ozersk.signals

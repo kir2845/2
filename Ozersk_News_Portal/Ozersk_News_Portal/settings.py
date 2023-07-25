@@ -28,14 +28,21 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 #ALLOWED_HOSTS = []
 
-CELERY_BROKER_URL = 'redis://7go10lqEpeLqj5hlnGdqGmNKOlMe6JJi@redis-11719.c302.asia-northeast1-1.gce.cloud.redislabs.com:11719'
-CELERY_RESULT_BACKEND = 'redis://7go10lqEpeLqj5hlnGdqGmNKOlMe6JJi@redis-11719.c302.asia-northeast1-1.gce.cloud.redislabs.com:11719'
+CELERY_BROKER_URL = 'redis://:7go10lqEpeLqj5hlnGdqGmNKOlMe6JJi@redis-11719.c302.asia-northeast1-1.gce.cloud.redislabs.com:11719'
+CELERY_RESULT_BACKEND = 'redis://:7go10lqEpeLqj5hlnGdqGmNKOlMe6JJi@redis-11719.c302.asia-northeast1-1.gce.cloud.redislabs.com:11719'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 #BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
-CELERY_IMPORTS = ('News_from_Ozersk.tasks',)
+#CELERY_IMPORTS = ('News_from_Ozersk.tasks',)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'), # Указываем, куда будем сохранять кэшируемые файлы!
+    }
+}
 
 
 # Application definition
@@ -84,8 +91,11 @@ SITE_URL = 'http://127.0.0.1:8000'
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 EMAIL_HOST_USER = 'kir2845.1'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_PASSWORD = 'Andrey9518001704'  # пароль от почты
+EMAIL_HOST_PASSWORD = 'udnjfwbjiepfgwxt'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
+EMAIL_USE_TLS = False
+
+
 
 SITE_ID = 1
 

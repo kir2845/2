@@ -11,10 +11,13 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from .tasks import send_email_post
 
 from django.http import HttpResponse
 from django.views import View
-from .tasks import hello, printer
+
+
+from django.core.cache import cache
 
 
 
@@ -105,6 +108,20 @@ class NewDetail(DetailView):
     template_name = 'new.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'new'
+    queryset = New.objects.all()
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно
+
+        obj = cache.get(f'new-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'new-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 
 
@@ -123,14 +140,15 @@ class NewCreate(PermissionRequiredMixin, CreateView):
         return queryset
 
     def form_valid(self, form):
-        self.object = form.save(commit = False)
+        new = form.save(commit = False)
         if 'news' in self.request.path:
             post_type = 'NE'
         elif 'articles' in self.request.path:
             post_type = 'AR'
-        self.object.post_type = post_type
+        new.post_type = post_type
+        new.save()
+        send_email_post.delay(new.pk)
         return super().form_valid(form)
-
 
 
 class NewEdit(PermissionRequiredMixin, UpdateView):
@@ -178,8 +196,3 @@ class ArtDelete(DeleteView):
 
 
 
-class IndexView(View):
-    def get(self, request):
-        printer.delay(10)
-        hello.delay()
-        return HttpResponse('Hello!')
