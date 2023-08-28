@@ -16,9 +16,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-^u(64t*xe9tcfl5h)w@bwy^p4gn@egz_1se$n12#$nsy9lnnjt'
 
@@ -168,6 +165,118 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style' : '{',
+    'formatters': {
+        'simple_1': {
+            'format': '%(asctime)s %(levelname)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'simple_2': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'simple_3': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(exc_info)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'simple_4': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'simple_5': {
+             'format': '%(levelname)s %(asctime)s %(module)s %(message)s',
+             'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console_1': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple_1'
+        },
+        'console_2': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple_2'
+        },
+        'console_3': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple_3'
+        },
+        'file_1': {
+             'level': 'INFO',
+             'class': 'logging.handlers.RotatingFileHandler',
+             'formatter': 'simple_5',
+             'filters': ['require_debug_false'],
+             'filename': '\logs\general.log',
+             'maxBytes': 1024,
+             'backupCount': 3,
+        },
+        'file_2': {
+             'level': 'ERROR',
+             'class': 'logging.handlers.RotatingFileHandler',
+             'formatter': 'simple_3',
+             'filename': '\logs\errors.log',
+             'maxBytes': 1024,
+             'backupCount': 3,
+        },
+        'file_3': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'simple_5',
+            'filename': '\logs\security.log',
+            'maxBytes': 1024,
+            'backupCount': 3,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'simple_4',
+            'filters': ['require_debug_false'],
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console_1', 'console_2', 'console_3', 'file_1'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file_2', 'mail_admins'],
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['file_2','mail_admins'],
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['file_2'],
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['file_2'],
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['file_3'],
+            'propagate': True,
+        },
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
