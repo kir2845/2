@@ -1,0 +1,72 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+
+<html lang="ru">
+    <hr>
+    <i><h3>всего постов на этой странице Bulletin_board - {{ posts|length }} </h3></i>
+    <h2>----------------------------------------------------</h2>
+    <h2>ВСЕ ПОСТЫ на {{ time_now|date:'d M Y' }}:</h2>
+
+    <h3><em><a href="http://127.0.0.1:8000/posts/search/">Поиск постов</a></em></h3>
+  {#  {% if is_not_authors %}#}
+        {#<button> <a href="sign/upgrade/"><h3>Стать автором постов</h3></a> </button>#}
+    {% if request.user.is_active %}
+        <h3><em><a href="http://127.0.0.1:8000/posts/create/">Добавить пост</a></em></h3>
+    {% endif %}
+
+   <hr>
+   {% if posts %}
+       <table>
+           <tr>
+               <td><h5> Время и дата публикации </h5></td>
+               <td><h4> Категория </h4></td>
+               <td><h4> Автор </h4></td>
+               <td><h4> Заголовок </h4></td>
+               <td><h4> Пост </h4></td>
+           </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td><i>{{ post.time_in }}</i></td>
+               <td><a href="{% url 'post_category' post.category.id %}">{{ post.category|truncatewords:5 }}</a></td>
+               <td>{{ post.author.username|truncatewords:2 }}</td>
+               <td><a href="{% url 'post_detail' post.id %}">{{ post.name|censor|truncatechars:60 }}</a></td>
+               <td>{{ post.textPost|censor|truncatewords:20 }}</td>
+           </tr>
+
+           {% endfor %}
+       </table>
+    <hr>
+
+   {% else %}
+       <h2>УВЫ, СЕГОДНЯ ПОСТОВ НЕТ!</h2>
+   {% endif %}
+
+
+    {% if page_obj.has_previous %}
+       {# Для каждой ссылки пагинации указываем обработку через новый тег #}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

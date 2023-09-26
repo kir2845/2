@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bare - Start Bootstrap Template</title>
+
+        <!-- Favicon-->
+        {% load static %}
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+              <!--  <a class="navbar-brand" href="#">OZERSK</a>-->
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            {% if request.user.is_active == False %}
+                            <a class="nav-link" href="/sign/login/">Авторизация</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if request.user.is_active == False %}
+                                <a class="nav-link" href="/sign/signup/">Регистрация</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/posts/">На главную страницу</a>
+                        </li>
+                     </ul>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Привет, {{request.user.username}}! </a>
+                        </li>
+
+            <li class="nav-item ">
+                <a class="nav-link text-white px-0" href="/">Твоя приватная страница</a>
+            </li>
+
+                     </ul>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contacts/">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://yandex.ru/">Выход в объятия Яндекса</a>
+                        </li>
+                     </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page content-->
+<div><hr />
+<h2 style="text-align: center;"><strong>ПРИВЕТ! МЫ РАДЫ <img src="https://html5-editor.net/tinymce/plugins/emoticons/img/smiley-smile.gif" alt="smile" width="27" height="27" /> ВИДЕТЬ ВАС НА НАШЕЙ ДОСКЕ ОБЪЯВЛЕНИЙ, ПОСВЯЩЕННОЙ MMORPG!</strong></h2>
+  <hr />
+</div>
+<table style="height: 118px; margin-left: auto; margin-right: auto; width: 1666px;" border="5" cellspacing="5">
+<tbody>
+<tr>
+
+<td style="width: 606px;"><img src="https://w.forfun.com/fetch/c0/c0115d5e34a0829386d2fb8941f148b9.jpeg" width="484" height="320" /></td>
+<td style="width: 527.016px;"><img src="https://img4.goodfon.com/original/1400x1050/8/69/skyforge-bozhestva-bogi-devushka-roga-demon.jpg" width="416" height="320" /></td>
+<td style="width: 909.984px;"><img src="https://wallup.net/wp-content/uploads/2019/09/1010623-aion-game-video-fantasy-art-artwork-mmo-online-action-fighting-ascension-rpg-echoes-eternity-upheaval-warrior-magic-perfect.jpg" width="745" height="320" /></td>
+</tr>
+</tbody>
+</table>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    {% block content %}
+                    {{ flatpage.content }}
+                    {% endblock content %}
+                 </div>
+            </div>
+        </div>
+    </body>
+</html>

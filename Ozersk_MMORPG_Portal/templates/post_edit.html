@@ -1,0 +1,19 @@
+{% extends 'flatpages/default.html' %}
+
+<html lang="ru">
+
+{% block content %}
+<h1>Изменить пост</h1>
+<hr>
+<form action="" method="post">
+                {% csrf_token %}
+                {% if is_author %}
+                           {#{{ form.media }}#}
+                    {{ form.as_p }}
+                <input type="submit" value="Сохранить" />
+                {% else %}
+                    <p>Вы не можете редактировать пост, так как не являетесь его автором.</p>
+                {% endif %}
+            </form>
+
+{% endblock content %}

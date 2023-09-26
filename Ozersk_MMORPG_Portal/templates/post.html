@@ -1,0 +1,51 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+<html lang="ru">
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+{#<div class="col-lg-10">#}
+<hr>
+    <h2>"{{ post.name|censor }}"</h2>
+    <i><h4>опубликовано - {{ post.time_in }}</h4></i>
+<hr>
+    <h3><em><a href="http://127.0.0.1:8000/posts/">Вернуться на главную страницу</a></em></h3>
+<hr>
+    <h2>"{{ post.textPost|censor }}"</h2>
+
+    {#{% if is_authors == True %}#}
+    {% if is_author %}
+        <h4><em><a href="{% url 'post_edit' post.id %}">Редактировать пост</a></em></h4>
+    {% endif %}
+
+
+    <ul class="post-meta mt-3 mb-4">
+        <li class="d-inline-block mr-3">
+            <span class="fas fa-clock text-primary"></span>
+            <h4><a class="ml-1" href="{{ post.id }}/comment/add">Добавить комментарий</a></h4>
+        </li>
+    </ul>
+
+    {% if comments %}
+    <h3 class="text-dark add-letter-space mt-3">Комментарии</h3>
+        {% for comment in comments %}
+            <ul class="post-meta mt-3 mb-4">
+            <li class="d-inline-block mr-3">
+                <span class="fas fa-clock text-primary"></span>
+                <a class="ml-1" href="#">{{ comment.date_time_in }}</a>
+            </li>
+            <li class="d-inline-block">
+                <span class="fas fa-list-alt text-primary"></span>
+                <a class="ml-1" href="#">{{ comment.user }}</a>
+            </li>
+        </ul>
+        <p>{{ comment.reply }}</p>
+        {% endfor %}
+    {% endif %}
+
+{#</div>#}
+{% endblock content %}
+

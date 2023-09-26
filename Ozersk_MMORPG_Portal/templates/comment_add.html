@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+
+{% block title %}
+Comment
+{% endblock title %}
+
+<!-- Добавление комментария на пост -->
+{% block content %}
+<div class="col-lg-10">
+    <img class="img-fluid" src="" alt="">
+    <h1 class="text-dark add-letter-space mt-4">{{ post.name}}</h1>
+    <ul class="post-meta mt-3 mb-4">
+        <li class="d-inline-block mr-3">
+            <span class="fas fa-clock text-primary"></span>
+            <a class="ml-1" href="#">{{ post.time_in }}</a>
+        </li>
+        <li class="d-inline-block">
+            <span class="fas fa-list-alt text-primary"></span>
+            <a class="ml-1" href="#">{{ post.category }}</a>
+        </li>
+        <li class="d-inline-block">
+            <span class="fas fa-list-alt text-primary"></span>
+            <a class="ml-1" href="#">{{ post.author }}</a>
+        </li>
+    </ul>
+    <p>{{ post.text }}</p>
+
+    <h3 class="text-dark add-letter-space mt-4">Комментарий</h3>
+        <div class="col-lg-7">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Сохранить" />
+
+            </form>
+        </div>
+</div>
+{% endblock content %}
